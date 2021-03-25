@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TriBago-Yönetici</title>
+
+    <!--Font Awesome 4 icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-light navbar-light sticky-top ">
+        <div class="container">
+            <a class="navbar-brand" href=""><span style="color: blue; 
+font-size:24px;">Tri</span><span style="color: orange; 
+font-size:24px;">ba</span><span style="color: red; 
+font-size:24px;">go</span></a>
+        </div>
+    </nav>
+
+    <div class="container" style="height: 749px;">
+        <br>
+
+        <form action="{{url_for('oda_duzenle',id=tmp_oda_id)}}" , method="POST">
+            <h3>Oda Düzenle</h3>
+            {%for i in rows%}
+            <div class="form-group">
+                <label>Oda Adı:</label>
+                <input type="text" required maxlength="30" class="form-control" name="odaadi" placeholder="Oda Adı" value="{{i['oda_adi']}}">
+            </div>
+            <div class="form-group">
+                <label>Oda Tipi:</label>
+                <input type="text" required maxlength="30" class="form-control" name="odatipi" placeholder="Oda Tipi" value="{{i['oda_tipi']}}">
+            </div>
+            <div class="form-group">
+                <label>Oda Fiyat:</label>
+                <input type="tel" required pattern="[0-9]{1,}" maxlength="10" class="form-control" name="odafiyat" placeholder="Oda Fiyat" value="{{i['oda_fiyat']}}">
+            </div>
+
+            {%endfor%}
+
+            <input type="submit" name="btn" value="Kaydet">
+
+        </form>
+
+    </div>
+    
+    <div id="footer" class="jumbotron" style="margin-bottom: -5px">
+        <div class="container text-center">
+            <p>Tüm Hakları Saklıdır © 2019 </p>
+        </div>
+
+    </div>
+</body>
+
+</html>

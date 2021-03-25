@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TriBago-Yönetici</title>
+
+    <!--Font Awesome 4 icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-light navbar-light sticky-top ">
+        <div class="container">
+            <a class="navbar-brand" href="/"><span style="color: blue; 
+font-size:24px;">Tri</span><span style="color: orange; 
+font-size:24px;">ba</span><span style="color: red; 
+font-size:24px;">go</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcol" aria-controls="#navcol" aria-expanded="false" aria-label="Toggle navigation"></button>
+           <div class="collapse navbar-collapse" id="navcol">
+                {% if session.logged_in %}
+                {%if session.admin %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('home_page')}}">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('uye_gor')}}">Üye Görüntüle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('otel_listele')}}">Otel Düzenle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('oda_listele')}}">Oda Düzenle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('doluluk')}}">Doluluk Oranı</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('logout')}}">Çıkış Yap</a></li>
+                </ul>
+
+                {% else %}
+
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('home_page')}}">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('rezerve')}}">Rezervasyon Yap</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('sepet')}}">Sepetim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('islemler')}}">İşlemlerim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('doluluk')}}">Doluluk Oranı</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('logout')}}">Çıkış Yap</a></li>
+                </ul>
+                {% endif %}
+                {% else %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('home_page')}}">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('rezerve')}}">Rezervasyon Yap</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#giris">İşlemlerim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('doluluk')}}">Doluluk Oranı</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#uyelik">Üye Ol</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#giris">Giriş Yap</a></li>
+                </ul>
+            </div>
+        </div>
+        {%endif%}
+    </nav>
+
+    <div class="container" style="height: 750px;">
+        <br>
+        <form action="" , method="POST">
+            <h3>Tarih Seç</h3>
+               <div class="form-group">
+            <label>Giriş Tarihi:</label>
+            <input type="date" class="form-control" placeholder="Giriş Tarihi" name="giristarihi" id="startdate">
+                    </div>
+
+               <div class="form-group">
+            <label>Çıkış Tarihi:</label>
+
+            <input type="date" class="form-control" placeholder="Çıkış Tarihi" name="cikistarihi" id="enddate">
+                    </div>
+                    <input type="submit" name="btn" value="Sorgula">
+                    <br><br>
+
+
+        </form>
+        {% if rows!=[] %}
+        <table border=2 style="text-align:center" class="table table-striped table-hover">
+            <thead style="font-weight: bold;">
+                <td>Otel Adı</td>
+                <td>Doluluk Oranı</td>
+            </thead>
+            {% for row in rows %}
+            <tr>
+                <td>{{row[0]}}</td>
+                <td>{{row[1]}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <h1>Kayıt bulunmamaktadır.</h1>
+        {% endif %}
+    </div>
+
+        <!-- Giriş Yap Modal -->
+        <div class="modal fade" id="giris" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Giriş Yap</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{url_for('login')}}" , method="POST">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" required name="email" aria-describedby="emailHelp" placeholder="Emailinizi Giriniz">
+                            </div>
+                            <div class="form-group">
+                                <label>Parola</label>
+                                <input type="password" minlength="8" maxlength="16" required class="form-control" name="password" placeholder="Parolanızı Giriniz">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary ">Giriş Yap</button>
+                            <button type="clear" class="btn btn-secondary " data-dismiss="modal">İptal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Üye ol Modal -->
+        <div class="modal fade" id="uyelik" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Üye Ol</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{url_for('uye_ol')}}" , method="POST">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="tel" pattern="[0-9]{11}" minlength="11" maxlength="11" required class="form-control" name="tcno" placeholder="T.C. Numarası">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" maxlength="30" pattern="[A-Za-z]{1,}" required name="adi" placeholder="Adı">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" maxlength="30" pattern="[A-Za-z]{1,}" required name="soyadi" placeholder="Soyadı">
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" pattern="[0-9]{10}" minlength="10" maxlength="10" required class="form-control" name="telno" placeholder="Telefon Numarası">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required name="email" placeholder="E-Mail">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" minlength="8" maxlength="16" class="form-control" required name="parola" placeholder="Parola">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary ">Kayıt Ol</button>
+                            <button type="clear" class="btn btn-secondary " data-dismiss="modal">İptal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    <div id="footer" class="jumbotron" style="margin-bottom: -5px">
+        <div class="container text-center">
+            <p>Tüm Hakları Saklıdır © 2019 </p>
+        </div>
+
+    </div>
+</body>
+
+</html>

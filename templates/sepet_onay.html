@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TriBago-Sepet Onayla</title>
+
+    <!--Font Awesome 4 icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+    <script>
+        
+         $( function() {
+ 
+ $( "#startdate" ).datepicker({
+ 
+ dateFormat: "yy-mm-dd",
+ altFormat: "yy-mm-dd",
+ altField:"#tarih-db",
+ monthNames: [ "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık" ],
+ dayNamesMin: [ "Pa", "Pt", "Sl", "Ça", "Pe", "Cu", "Ct" ],
+ firstDay:1
+});
+ 
+ } );
+        
+         $( function() {
+ 
+ $( "#enddate" ).datepicker({
+ 
+ dateFormat: "yy-mm-dd",
+ altFormat: "yy-mm-dd",
+ altField:"#tarih-db",
+ monthNames: [ "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık" ],
+ dayNamesMin: [ "Pa", "Pt", "Sl", "Ça", "Pe", "Cu", "Ct" ],
+ firstDay:1
+});
+ 
+ } );
+        $(document).ready(function() {
+
+$( "#startdate,#enddate" ).datepicker({
+changeMonth: true,
+changeYear: true,
+firstDay: 1,
+dateFormat: 'yy/mm/dd',
+})
+
+$( "#startdate" ).datepicker({ dateFormat: 'yy-mm-dd' });
+$( "#enddate" ).datepicker({ dateFormat: 'yy-mm-dd' });
+
+$('#enddate').change(function() {
+    var start = $('#startdate').datepicker('getDate');
+    var end   = $('#enddate').datepicker('getDate');
+
+if (start<end) {
+    var days   = (end - start)/1000/60/60/24;
+$('#days').val(days);
+}
+else {
+  alert ("You cant come back before you have been!");
+  $('#startdate').val("");
+  $('#enddate').val("");
+    $('#days').val("");
+}
+}); //end change function
+}); //end ready
+
+    </script>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-light navbar-light sticky-top ">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><span style="color: blue; 
+font-size:24px;">Tri</span><span style="color: orange; 
+font-size:24px;">ba</span><span style="color: red; 
+font-size:24px;">go</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcol" aria-controls="#navcol" aria-expanded="false" aria-label="Toggle navigation"></button>
+          
+        </div>
+    </nav>
+
+    <div class="container" style="height: 749px;">
+        <br>
+
+        <form action="{{url_for('sepet_duzenle',id=sepet_id, odaid=oda_id)}}" , method="POST">
+            <h3>Tarih Seç</h3>
+               <div class="form-group">
+            <label>Giriş Tarihi:</label>
+            <input type="text" class="form-control" placeholder="Giriş Tarihi" name="giristarihi" id="startdate">
+                    </div>
+
+               <div class="form-group">
+            <label>Çıkış Tarihi:</label>
+
+            <input type="text" class="form-control" placeholder="Çıkış Tarihi" name="cikistarihi" id="enddate">
+                    </div>
+
+
+               <div class="form-group">
+            <label>Kalınacak Gün:</label>
+            <input type="text" class="form-control" placeholder="Kalınacak Gün Sayısı" name="kalinacakgun" id="days">
+                    </div>
+
+            <div class="form-group">
+            <label>Puan Kullanmak İstiyorum:</label>
+            <input type="radio" name="puan" value="1">
+            <br>
+            <label>Puan Kullanmak İstemiyorum:</label>
+
+            <input type="radio" name="puan" value="0" checked>
+                    </div>
+
+            <input type="submit" name="btn" value="Onayla">
+        </form>
+
+    </div>
+
+    <div id="footer" class="jumbotron" style="margin-bottom: -5px">
+        <div class="container text-center">
+            <p>Tüm Hakları Saklıdır © 2019 </p>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

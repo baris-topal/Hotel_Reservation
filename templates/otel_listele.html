@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TriBago-Yönetici</title>
+
+    <!--Font Awesome 4 icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-light navbar-light sticky-top ">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><span style="color: blue; 
+font-size:24px;">Tri</span><span style="color: orange; 
+font-size:24px;">ba</span><span style="color: red; 
+font-size:24px;">go</span></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcol" aria-controls="#navcol" aria-expanded="false" aria-label="Toggle navigation"></button>
+            <div class="collapse navbar-collapse" id="navcol">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('home_page')}}">Ana Sayfa</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('uye_gor')}}">Üye Görüntüle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('otel_listele')}}">Otel Düzenle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('oda_listele')}}">Oda Düzenle</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('logout')}}">Çıkış Yap</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <br>
+        <button type="button" class="btn btn-primary " style="width:100%" data-toggle="modal" data-target="#oda_ekle">Otel Ekle</button>
+
+
+        <div class="modal fade" id="oda_ekle" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Otel Ekle</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="{{url_for('otel_listele')}}" , method="POST">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" required maxlength="30" class="form-control" name="oteladi" placeholder="Otel Adı">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" required maxlength="30" class="form-control" name="otelsehir" placeholder="Otel Şehri">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" pattern="[1-5]{1}" required maxlength="1" class="form-control" name="otelyildizi" placeholder="Otel Yıldızı">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary ">Ekle</button>
+                            <button type="clear" class="btn btn-secondary " data-dismiss="modal">İptal</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content container" style="margin-top:-8px;background-color:white;min-height:100vh;height: 745px">
+        <br>
+        <h3>Otelleri Görüntüle</h3>
+        <table border=2 style="text-align:center" class="table table-striped table-hover">
+            <thead style="font-weight: bold;">
+                <td>Düzenle</td>
+                <td>Otel Adı</td>
+                <td>Otel Şehri</td>
+                <td>Otel Yıldızı</td>
+                <td>Sil</td>
+            </thead>
+            {% for row in rows %}
+            <tr>
+                <td style="width:5%;"><a class="btn btn-warning" href="{{url_for('otel_duzenle',id=row['otel_id'])}}" role="button"><i class="icon-info-sign"></i></a></td>
+                <td>{{row["otel_adi"]}}</td>
+                <td>{{row["otel_sehir"]}}</td>
+                <td>{{row["otel_yildizi"]}}</td>
+                <td style="width:5%;"><a class="btn btn-danger" href="{{url_for('otel_sil',id=row['otel_id'])}}" role="button"><i class="icon-info-sign"></i></a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="footer" class="jumbotron" style="margin-bottom: -5px">
+        <div class="container text-center">
+            <p>Tüm Hakları Saklıdır © 2019 </p>
+        </div>
+    </div>
+</body>
+</html>
